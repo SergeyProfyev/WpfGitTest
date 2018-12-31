@@ -1,0 +1,70 @@
+﻿<Window x:Class="FixAddress.AddrEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FixAddress"
+        mc:Ignorable="d"
+        Title="Редактирование адреса." Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style x:Key="BaseStyle" >
+            <Setter Property="Control.FontFamily"  Value="Verdana"/>
+            <Setter Property="Control.FontSize" Value="12"/>
+            <Setter Property="Control.Margin"  Value="10"/>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Background" Value="Transparent"  />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Blue" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Margin"  Value="10,5,10,5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="45"  />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="45"  />
+            <RowDefinition Height="45"  />
+            <RowDefinition Height="45"  />
+            <RowDefinition Height="45"  />
+            <RowDefinition Height="45"  />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
+            <Button Name="Unknown" Command="{Binding UnknownCommand}" Content="Неизвестный" HorizontalAlignment="Left" ></Button>
+            <Button Name="Save" Command="{Binding SaveCommand}" Content="Записать" HorizontalAlignment="Left" ></Button>
+            <Button Content="Закрыть" Command="{Binding CloseCommand}" HorizontalAlignment="Right" ></Button>
+        </DockPanel>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="Адрес БТД" VerticalAlignment="Top" Margin="10"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Name="Addr"  HorizontalAlignment="Left" Height="23" Text="{Binding Path=Addr1, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="Auto" MinWidth="300" Margin="10" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" Text="Адрес ФИАС" VerticalAlignment="Top" Margin="10"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+            <TextBox Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" Height="23" Text="{Binding Path=Addr2, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="Auto" MinWidth="300" Margin="10" />
+            <Button Grid.Row="2" Grid.Column="1" Name="Variant" Command="{Binding VariantCommand}" Content="Варианты" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Text="ФИАС" VerticalAlignment="Top" Margin="10"/>
+        <TextBox Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Left" Height="23" Text="{Binding Path=Fias, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="300" Margin="10" />
+        <TextBlock Grid.Row="4" Grid.Column="0"  HorizontalAlignment="Left" Text="Широта" VerticalAlignment="Top"  Margin="10"/>
+        <TextBox Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Left" Height="23" Text="{Binding Path=Lat, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="300" Margin="10" />
+        <TextBlock Grid.Row="5" Grid.Column="0"  HorizontalAlignment="Left" Text="Долгота" VerticalAlignment="Top" Margin="10"/>
+        <TextBox Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Left" Height="23" Text="{Binding Lon, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="300" Margin="10" />
+
+        <TextBlock Grid.Row="6" Grid.Column="0"  HorizontalAlignment="Left" Text="Код КЛАДР" VerticalAlignment="Top" Margin="10"/>
+        <TextBox Grid.Row="6" Grid.Column="1"  HorizontalAlignment="Left" Height="23" Text="{Binding Kladr, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="300" Margin="10" />
+        <TextBlock Grid.Row="7" Grid.Column="0"  HorizontalAlignment="Left" Text="ОКАТО" VerticalAlignment="Top" Margin="10"/>
+        <TextBox Grid.Row="7" Grid.Column="1"  HorizontalAlignment="Left" Height="23" Text="{Binding OCATO, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="300" Margin="10" />
+
+    </Grid>
+</Window>

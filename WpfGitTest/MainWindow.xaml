@@ -1,12 +1,86 @@
-﻿<Window x:Class="WpfGitTest.MainWindow"
+﻿<Window x:Class="FixAddress.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfGitTest"
+        xmlns:CorLib="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:FixAddress"
+        xmlns:Properties="clr-namespace:FixAddress.Properties" 
+        xmlns:util="clr-namespace:Wpf.Util"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Утилита коррекции адресов БТД. Версия 2." Height="450" Width="1200" MaxWidth="1600">
+    <Window.Resources>
+        <Style x:Key="BaseStyle" >
+            <Setter Property="Control.FontFamily"  Value="Verdana"/>
+            <Setter Property="Control.FontSize" Value="12"/>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Background" Value="Transparent"  />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightBlue" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Margin"  Value="20,5,20,5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions >
+            <RowDefinition Height="30" />
+            <RowDefinition />
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" FlowDirection="LeftToRight" VerticalAlignment="Top"  >
+            <CheckBox Name="AllAddr" IsChecked="{Binding Mode}" Content="Показать все адреса" VerticalAlignment="Center"/>
+
+            <Button Name="Refresh" Command="{Binding RefreshCommand}" Content="Обновить"  HorizontalAlignment="Right"/>
+            <Button Name="Edit" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedFias}" Content="Изменить"  HorizontalAlignment="Right" />
+            <Button  Command="{Binding CloseCommand}" Content="Закрыть"  HorizontalAlignment="Right" />
+        </DockPanel>
+        <ListView Grid.Row="1" Name="addrList" ItemsSource="{Binding Path=FiasList}" SelectedItem="{Binding SelectedFias}"
+                  IsSynchronizedWithCurrentItem="True" 
+                  util:GridViewSort.AutoSort ="True"
+                  Style="{StaticResource BaseStyle}" 
+                  AlternationCount="2">
+            <!--<MouseBinding Gesture="LeftDoubleClick"  Command="{Binding EditCommand}" CommandParameter="{Binding SetectedFias}" ></MouseBinding>-->
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction 
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding SelectedFias}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="LightGray"  />
+                        </Trigger>
+                        <!--<DataTrigger Binding="{Binding isEdited}" Value="true">
+                            <Setter Property="Background" Value="Red"/>
+                        </DataTrigger>-->
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Addr1, UpdateSourceTrigger=PropertyChanged}" util:GridViewSort.PropertyName="Addr1">Адрес БТД</GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Fias, UpdateSourceTrigger=PropertyChanged}" util:GridViewSort.PropertyName="Fias">Код ФИАС</GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Addr2, UpdateSourceTrigger=PropertyChanged}" util:GridViewSort.PropertyName="Addr2">Адрес ФИАС</GridViewColumn>
+                    <!--<GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=check}" util:GridViewSort.PropertyName="check">check</GridViewColumn>-->
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        <DockPanel Grid.Row="2" FlowDirection="LeftToRight" VerticalAlignment="Bottom" >
+            <TextBlock HorizontalAlignment="Left" Width="Auto" Margin="5" Text="Всего строк:" VerticalAlignment="Center" />
+            <TextBlock Name="RecNum" HorizontalAlignment="Left" Width="Auto" Margin="5" Text="{Binding RecordCount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+        </DockPanel>
     </Grid>
 </Window>

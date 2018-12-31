@@ -1,0 +1,52 @@
+﻿<Window x:Class="FixAddress.FiasSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FixAddress"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        mc:Ignorable="d"
+        Title="Выбор правильного адреса из списка вариантов" Height="400" Width="500" WindowStartupLocation="CenterOwner" >
+    <Window.Resources>
+        <Style x:Key="BaseStyle" >
+            <Setter Property="Control.FontFamily"  Value="Verdana"/>
+            <Setter Property="Control.FontSize" Value="12"/>
+            <Setter Property="Control.Margin"  Value="10"/>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Background" Value="Transparent"  />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Blue" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Margin"  Value="10,5,10,5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <ListBox  Name="VariantList" ItemsSource="{Binding FiasList}" SelectedItem="{Binding SelectedAddr}" Width="Auto">
+            <ListBox.InputBindings>
+                <!--<MouseBinding Gesture="RightClick"  Command="{Binding SelectCommand}" CommandParameter="{Binding SelectedAddr}" />-->
+                <KeyBinding Key="Enter" Command="{Binding SelectCommand}" CommandParameter="{Binding SelectedAddr}"/>
+            </ListBox.InputBindings> 
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick" >
+                    <i:InvokeCommandAction 
+                                    Command="{Binding SelectCommand}"
+                                    CommandParameter="{Binding SelectedAddr}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <StackPanel >
+                        <TextBlock Text="{Binding Addr2}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</Window>
